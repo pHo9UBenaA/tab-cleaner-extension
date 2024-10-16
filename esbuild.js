@@ -7,8 +7,6 @@ const glob = require('glob');
 const srcDir = path.join(__dirname, srcDirName);
 const distDir = path.join(__dirname, distDirName);
 
-const directories = ['tab-cleaner'];
-
 const optionsStatic = {
 	bundle: true,
 	minify: true,
@@ -17,53 +15,40 @@ const optionsStatic = {
 	tsconfig: './tsconfig.json',
 };
 
-const tsOptionsArray = directories.map((dir) => {
-	const entryPoints = glob.sync(`${srcDir}/${dir}/*.ts`);
-	const outdir = `${distDir}/${dir}`;
-
-	const copyStaticFiles = require('esbuild-copy-static-files');
-	const copyAssets = copyStaticFiles({
-		src: `./${srcDirName}/${dir}/assets`,
-		dest: `./${distDirName}/${dir}`,
-		dereference: true,
-		errorOnExist: false,
-	});
-
-	const options = {
-		...optionsStatic,
-		entryPoints,
-		outdir,
-		outbase: `./${srcDirName}/${dir}`,
-		plugins: [copyAssets],
-	};
-
-	return options;
+const copyStaticFiles = require('esbuild-copy-static-files');
+const copyAssets = copyStaticFiles({
+	src: `./${srcDirName}/assets`,
+	dest: `./${distDirName}`,
+	dereference: true,
+	errorOnExist: false,
 });
 
-const tsxOptionsArray = directories.map((dir) => {
-	const entryPoints = glob.sync(`${srcDir}/${dir}/options.tsx`);
-	const outdir = `${distDir}/${dir}`;
+const outdir = `${distDir}`;
 
-	const options = {
-		...optionsStatic,
-		entryPoints,
-		outdir,
-	};
+const tsEntryPoints = glob.sync(`${srcDir}/*.ts`);
+const tsxEntryPoints = glob.sync(`${srcDir}/options.tsx`);
 
-	return options;
-});
+const tsOption = {
+	...optionsStatic,
+	outdir,
+	entryPoints: tsEntryPoints,
+	outbase: `./${srcDirName}`,
+	plugins: [copyAssets],
+};
+
+const tsxOption = {
+	...optionsStatic,
+	outdir,
+	entryPoints: tsxEntryPoints,
+};
 
 const { build } = require('esbuild');
-tsOptionsArray.forEach((options) => {
-	build(options).catch((err) => {
-		process.stderr.write(err.stderr);
-		process.exit(1);
-	});
+build(tsOption).catch((err) => {
+	process.stderr.write(err.stderr);
+	process.exit(1);
 });
 
-tsxOptionsArray.forEach((options) => {
-	build(options).catch((err) => {
-		process.stderr.write(err.stderr);
-		process.exit(1);
-	});
+build(tsxOption).catch((err) => {
+	process.stderr.write(err.stderr);
+	process.exit(1);
 });
