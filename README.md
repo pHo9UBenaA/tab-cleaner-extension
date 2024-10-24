@@ -2,6 +2,6 @@
 
 ```bash
 docker compose up -d --build
-docker compose exec node pnpm i --frozen-lockfile
-docker compose exec node pnpm run build
+docker compose exec bun bun i --frozen-lockfile
+docker compose exec bun bun run build
 ```
