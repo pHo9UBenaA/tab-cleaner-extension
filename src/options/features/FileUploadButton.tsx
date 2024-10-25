@@ -1,5 +1,6 @@
 import { Box, Button, Input, Tooltip } from '@chakra-ui/react';
-import React, { useRef } from 'react';
+import type React from 'react';
+import { useRef } from 'react';
 
 type FileUploadButtonProps = {
 	onFileUpload: (content: string) => Promise<void>;
@@ -46,7 +47,7 @@ export function FileUploadButton({ onFileUpload }: FileUploadButtonProps) {
 		}
 
 		readFileAsText(file, onFileUpload, (error) => {
-			alert('Failed to load file: ' + error.message);
+			alert(`Failed to load file: ${error.message}`);
 			console.error('Failed to load:', error);
 		});
 

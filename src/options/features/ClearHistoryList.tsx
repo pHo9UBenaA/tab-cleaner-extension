@@ -1,6 +1,7 @@
+import React from 'react';
 import { Link, List, ListItem, Text } from '@chakra-ui/react';
 // TODO alias
-import { ClearHistory } from '../../models/storage';
+import type { ClearHistory } from '../../models/storage';
 
 type ClearHistoryProps = {
 	clearHistories?: ClearHistory[];
@@ -9,7 +10,7 @@ type ClearHistoryProps = {
 export function ClearHistoryList({ clearHistories }: ClearHistoryProps) {
 	return (
 		<List spacing={3}>
-			{clearHistories && clearHistories.length ? (
+			{clearHistories?.length ? (
 				clearHistories.map((clearHistory, i) => (
 					<ListItem key={clearHistory.id}>
 						<Link href={clearHistory.url} textDecoration='underline' isExternal>

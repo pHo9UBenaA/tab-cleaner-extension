@@ -1,7 +1,7 @@
 import { QuestionOutlineIcon } from '@chakra-ui/icons';
 import { FormControl, FormLabel, Switch, Tooltip } from '@chakra-ui/react';
-import React from 'react';
-import { Setting } from '../../models/storage';
+import type React from 'react';
+import type { Setting } from '../../models/storage';
 
 type SettingToggleProps = {
 	labelId: Extract<keyof Setting, 'enableAutoRemoveNewTab' | 'removeOtherDomains'>;

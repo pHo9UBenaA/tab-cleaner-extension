@@ -1,8 +1,8 @@
 import { DeleteIcon } from '@chakra-ui/icons';
 import { Box, IconButton, VStack, useDisclosure } from '@chakra-ui/react';
 import React, { useRef } from 'react';
-import { Domain } from '../../models/storage';
-import { ConfirmDialog, DialogProperty } from '../components/ConfirmDialog';
+import type { Domain } from '../../models/storage';
+import { ConfirmDialog, type DialogProperty } from '../components/ConfirmDialog';
 
 type DomainItemProps = {
 	domain: Domain;
@@ -61,9 +61,13 @@ export function DomainList({ domains, handleRemoveDomain }: DomainListProps) {
 	return (
 		<>
 			<VStack spacing={3} maxHeight='415px' overflowY='auto' width='100%'>
-				{domains && domains.length ? (
-					domains.map((domain, i) => (
-						<DomainItem key={i} domain={domain} handleDelete={handleClick} />
+				{domains?.length ? (
+					domains.map((domain) => (
+						typeof domain === 'string' ? (
+							<DomainItem key={domain} domain={domain} handleDelete={handleClick} />
+						) : (
+							<DomainItem key={domain.uuid} domain={domain} handleDelete={handleClick} />
+						)
 					))
 				) : (
 					<Box color='gray.400' w='100%'>

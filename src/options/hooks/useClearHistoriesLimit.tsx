@@ -1,6 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import type React from 'react';
+import { useEffect, useState } from 'react';
 import { StorageKey } from '../../constants/storage';
-import { Setting } from '../../models/storage';
+import type { Setting } from '../../models/storage';
 
 // TODO
 const getStorageSettingValue = (key: string): Promise<Setting> => {

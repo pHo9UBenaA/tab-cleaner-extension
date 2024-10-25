@@ -1,5 +1,5 @@
 import { StorageKey } from '../constants/storage';
-import { ClearHistory, Domain, Setting } from '../models/storage';
+import type { ClearHistory, Domain, Setting } from '../models/storage';
 
 const enableAutoRemoveNewTabs = (enableAutoRemoveNewTab: Setting['enableAutoRemoveNewTab']) => {
 	if (!enableAutoRemoveNewTab) {
@@ -51,11 +51,11 @@ const removeTabsByDomain = (
 			// TODO
 			.filter((x): x is ClearHistory => x.id !== undefined);
 
-		tabs.forEach((tab) => {
+		for (const tab of tabs) {
 			if (!tab.id) {
 				console.error('Tab id is not defined. details: ', tab);
 			}
-		});
+		}
 
 		return clearHistories;
 	};

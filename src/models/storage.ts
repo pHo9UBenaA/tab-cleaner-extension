@@ -96,4 +96,4 @@ type Setting = {
 	removeOtherDomains?: boolean;
 };
 
-export { ClearHistory, Domain, Setting };
+export type { ClearHistory, Domain, Setting };

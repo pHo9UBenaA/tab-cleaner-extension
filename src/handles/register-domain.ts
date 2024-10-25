@@ -1,6 +1,6 @@
 import { v4 as uuid_v4 } from 'uuid';
 import { StorageKey } from '../constants/storage';
-import { Domain } from '../models/storage';
+import type { Domain } from '../models/storage';
 
 // TODO DRY 依存関係合わせて、ディレクトリ構造をなんとかしなきゃ
 const domainsRegister = async (hostnames: string[]) => {

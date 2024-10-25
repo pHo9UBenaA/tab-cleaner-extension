@@ -14,8 +14,8 @@ import * as ReactDOM from 'react-dom/client';
 import { v4 as uuid_v4 } from 'uuid';
 import { StorageKey } from './constants/storage';
 import { handleClearTabEvent } from './handles/clear-tab';
-import { ClearHistory, Domain, Setting } from './models/storage';
-import { ConfirmDialog, DialogProperty } from './options/components/ConfirmDialog';
+import type { ClearHistory, Domain, Setting } from './models/storage';
+import { ConfirmDialog, type DialogProperty } from './options/components/ConfirmDialog';
 import { ClearHistoryList } from './options/features/ClearHistoryList';
 import { DomainInput } from './options/features/DomainInput';
 import { DomainList } from './options/features/DomainList';
@@ -168,7 +168,7 @@ function Options() {
 
 	const handleFileUpload = async (content: string) => {
 		const lines = content.split('\n').filter((line) => line.trim() !== '');
-		for (let line of lines) {
+		for (const line of lines) {
 			try {
 				const lineAddSchema = line.includes('://') ? line : `http://${line}`;
 				const url = new URL(lineAddSchema);
@@ -218,7 +218,7 @@ function Options() {
 	};
 
 	const handleClearHistoriesLimitChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-		const newValue = isNaN(Number(event.target.value)) ? undefined : Number(event.target.value);
+		const newValue = Number.isNaN(Number(event.target.value)) ? undefined : Number(event.target.value);
 		setClearHistoriesLimit(newValue);
 		const storageValue: Setting = await getStorageSettingValue(StorageKey.setting);
 		const newStorageValue = { ...storageValue, clearHistoriesLimit: newValue };

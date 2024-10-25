@@ -7,7 +7,7 @@ import {
 	AlertDialogOverlay,
 	Button,
 } from '@chakra-ui/react';
-import React from 'react';
+import type React from 'react';
 
 export type DialogProperty = {
 	title: string;
