@@ -62,13 +62,17 @@ export function DomainList({ domains, handleRemoveDomain }: DomainListProps) {
 		<>
 			<VStack spacing={3} maxHeight='415px' overflowY='auto' width='100%'>
 				{domains?.length ? (
-					domains.map((domain) => (
+					domains.map((domain) =>
 						typeof domain === 'string' ? (
 							<DomainItem key={domain} domain={domain} handleDelete={handleClick} />
 						) : (
-							<DomainItem key={domain.uuid} domain={domain} handleDelete={handleClick} />
+							<DomainItem
+								key={domain.uuid}
+								domain={domain}
+								handleDelete={handleClick}
+							/>
 						)
-					))
+					)
 				) : (
 					<Box color='gray.400' w='100%'>
 						No domains target

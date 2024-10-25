@@ -218,7 +218,9 @@ function Options() {
 	};
 
 	const handleClearHistoriesLimitChange = async (event: React.ChangeEvent<HTMLSelectElement>) => {
-		const newValue = Number.isNaN(Number(event.target.value)) ? undefined : Number(event.target.value);
+		const newValue = Number.isNaN(Number(event.target.value))
+			? undefined
+			: Number(event.target.value);
 		setClearHistoriesLimit(newValue);
 		const storageValue: Setting = await getStorageSettingValue(StorageKey.setting);
 		const newStorageValue = { ...storageValue, clearHistoriesLimit: newValue };

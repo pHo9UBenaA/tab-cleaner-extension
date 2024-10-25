@@ -7,12 +7,16 @@ export function useStorageChange<T extends (Domain | ClearHistory)[]>(
 ): [T | undefined, React.Dispatch<React.SetStateAction<T | undefined>>] {
 	const [value, setValue] = useState<T>();
 
-	const getCallback = useCallback((data: { [key: string]: T }) => {
-		setValue(data[key] || undefined);
-	}, [key]);
-	const onChangeCallback = useCallback((changes: { [key: string]: chrome.storage.StorageChange }) => {
-		if (changes[key]) {
-			setValue(changes[key].newValue || undefined);
+	const getCallback = useCallback(
+		(data: { [key: string]: T }) => {
+			setValue(data[key] || undefined);
+		},
+		[key]
+	);
+	const onChangeCallback = useCallback(
+		(changes: { [key: string]: chrome.storage.StorageChange }) => {
+			if (changes[key]) {
+				setValue(changes[key].newValue || undefined);
 			}
 		},
 		[key]

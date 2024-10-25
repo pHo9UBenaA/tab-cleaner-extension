@@ -1,5 +1,5 @@
-import React from 'react';
 import { Link, List, ListItem, Text } from '@chakra-ui/react';
+import React from 'react';
 // TODO alias
 import type { ClearHistory } from '../../models/storage';
 
