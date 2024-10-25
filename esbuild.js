@@ -1,54 +1,49 @@
-const srcDirName = 'src';
-const distDirName = 'dist';
-
+const { build } = require('esbuild');
 const path = require('node:path');
 const glob = require('glob');
+const copyStaticFiles = require('esbuild-copy-static-files');
 
-const srcDir = path.join(__dirname, srcDirName);
-const distDir = path.join(__dirname, distDirName);
+const PATHS = {
+	src: 'src',
+	dist: 'dist'
+};
 
-const optionsStatic = {
+const srcDir = path.join(__dirname, PATHS.src);
+const distDir = path.join(__dirname, PATHS.dist);
+
+const baseOptions = {
 	bundle: true,
 	minify: true,
 	treeShaking: true,
 	platform: 'browser',
 	tsconfig: './tsconfig.json',
+	outdir: distDir
 };
 
-const copyStaticFiles = require('esbuild-copy-static-files');
 const copyAssets = copyStaticFiles({
-	src: `./${srcDirName}/assets`,
-	dest: `./${distDirName}`,
+	src: `./${PATHS.src}/assets`,
+	dest: `./${PATHS.dist}`,
 	dereference: true,
-	errorOnExist: false,
+	errorOnExist: false
 });
 
-const outdir = `${distDir}`;
+const buildConfigs = [
+	{
+		...baseOptions,
+		entryPoints: glob.sync(`${srcDir}/*.ts`),
+		outbase: `./${PATHS.src}`,
+		plugins: [copyAssets]
+	},
+	{
+		...baseOptions,
+		entryPoints: glob.sync(`${srcDir}/options.tsx`)
+	}
+];
 
-const tsEntryPoints = glob.sync(`${srcDir}/*.ts`);
-const tsxEntryPoints = glob.sync(`${srcDir}/options.tsx`);
-
-const tsOption = {
-	...optionsStatic,
-	outdir,
-	entryPoints: tsEntryPoints,
-	outbase: `./${srcDirName}`,
-	plugins: [copyAssets],
-};
-
-const tsxOption = {
-	...optionsStatic,
-	outdir,
-	entryPoints: tsxEntryPoints,
-};
-
-const { build } = require('esbuild');
-build(tsOption).catch((err) => {
+const handleBuildError = (err) => {
 	process.stderr.write(err.stderr);
 	process.exit(1);
-});
+};
 
-build(tsxOption).catch((err) => {
-	process.stderr.write(err.stderr);
-	process.exit(1);
-});
+Promise.all(buildConfigs.map(config => build(config)))
+	.catch(handleBuildError);
