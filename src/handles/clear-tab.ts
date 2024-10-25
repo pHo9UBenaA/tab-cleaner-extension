@@ -87,7 +87,7 @@ const removeTabsByDomain = (
 					const domainName = typeof domain === 'string' ? domain : domain.name;
 					return `*://${domainName}/*`;
 				}),
-		  };
+			};
 
 	chrome.tabs.query(tabsQuery, (tabs) => {
 		const clearHistories = getClearHistories(tabs);
