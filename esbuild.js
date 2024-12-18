@@ -5,7 +5,7 @@ const copyStaticFiles = require('esbuild-copy-static-files');
 
 const PATHS = {
 	src: 'src',
-	dist: 'dist'
+	dist: 'dist',
 };
 
 const srcDir = path.join(__dirname, PATHS.src);
@@ -17,14 +17,14 @@ const baseOptions = {
 	treeShaking: true,
 	platform: 'browser',
 	tsconfig: './tsconfig.json',
-	outdir: distDir
+	outdir: distDir,
 };
 
 const copyAssets = copyStaticFiles({
 	src: `./${PATHS.src}/assets`,
 	dest: `./${PATHS.dist}`,
 	dereference: true,
-	errorOnExist: false
+	errorOnExist: false,
 });
 
 const buildConfigs = [
@@ -32,12 +32,12 @@ const buildConfigs = [
 		...baseOptions,
 		entryPoints: glob.sync(`${srcDir}/*.ts`),
 		outbase: `./${PATHS.src}`,
-		plugins: [copyAssets]
+		plugins: [copyAssets],
 	},
 	{
 		...baseOptions,
-		entryPoints: glob.sync(`${srcDir}/options.tsx`)
-	}
+		entryPoints: glob.sync(`${srcDir}/options.tsx`),
+	},
 ];
 
 const handleBuildError = (err) => {
@@ -45,5 +45,4 @@ const handleBuildError = (err) => {
 	process.exit(1);
 };
 
-Promise.all(buildConfigs.map(config => build(config)))
-	.catch(handleBuildError);
+Promise.all(buildConfigs.map((config) => build(config))).catch(handleBuildError);
