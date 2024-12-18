@@ -1,4 +1,3 @@
-import { v4 as uuid_v4 } from 'uuid';
 import { StorageKey } from '../constants/storage';
 import type { Domain } from '../models/storage';
 
@@ -6,7 +5,7 @@ import type { Domain } from '../models/storage';
 const domainsRegister = async (hostnames: string[]) => {
 	const domains = hostnames.map((hostname) => {
 		return {
-			uuid: uuid_v4(),
+			uuid: crypto.randomUUID(),
 			name: hostname,
 		};
 	});

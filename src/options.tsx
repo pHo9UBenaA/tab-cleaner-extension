@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { v4 as uuid_v4 } from 'uuid';
 import { StorageKey } from './constants/storage';
 import { handleClearTabEvent } from './handles/clear-tab';
 import type { ClearHistory, Domain, Setting } from './models/storage';
@@ -79,7 +78,7 @@ const domainRegister = async (
 		...new Set([
 			...prevDomains,
 			{
-				uuid: uuid_v4(),
+				uuid: crypto.randomUUID(),
 				name: urlHostnameWithoutScheme,
 			},
 		]),
