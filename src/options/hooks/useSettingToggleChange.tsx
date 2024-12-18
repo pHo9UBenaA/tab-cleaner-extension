@@ -2,21 +2,12 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import { StorageKey } from '../../constants/storage';
 import type { Setting } from '../../models/storage';
+import { getStorageSettingValue } from '../chromeStorage';
 
-// TODO
 type SettingToggleType = Exclude<
 	Setting['enableAutoRemoveNewTab'] | Setting['removeOtherDomains'],
 	undefined
 >;
-
-// TODO
-const getStorageSettingValue = (key: string): Promise<Setting> => {
-	return new Promise((resolve) => {
-		chrome.storage.local.get(key, (result) => {
-			resolve(result[key] || {});
-		});
-	});
-};
 
 export function useSettingToggleChange(
 	key: Extract<keyof Setting, 'enableAutoRemoveNewTab' | 'removeOtherDomains'>
