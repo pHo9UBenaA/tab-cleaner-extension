@@ -1,4 +1,4 @@
-# Tab Cleaner Extension
+# Tab Cleaner
 
 A Chrome extension that helps you efficiently manage your browser tabs by removing tabs belonging to specified domains.
 

@@ -2,15 +2,7 @@ import type React from 'react';
 import { useEffect, useState } from 'react';
 import { StorageKey } from '../../constants/storage';
 import type { Setting } from '../../models/storage';
-
-// TODO
-const getStorageSettingValue = (key: string): Promise<Setting> => {
-	return new Promise((resolve) => {
-		chrome.storage.local.get(key, (result) => {
-			resolve(result[key] || {});
-		});
-	});
-};
+import { getStorageSettingValue } from '../chromeStorage';
 
 export function useClearHistoriesLimit(): [
 	Setting['clearHistoriesLimit'],

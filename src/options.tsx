@@ -11,7 +11,6 @@ import {
 } from '@chakra-ui/react';
 import React, { useRef, useState } from 'react';
 import * as ReactDOM from 'react-dom/client';
-import { v4 as uuid_v4 } from 'uuid';
 import { StorageKey } from './constants/storage';
 import { handleClearTabEvent } from './handles/clear-tab';
 import type { ClearHistory, Domain, Setting } from './models/storage';
@@ -26,25 +25,13 @@ import { SettingToggle } from './options/features/SettingToggle';
 import { useClearHistoriesLimit } from './options/hooks/useClearHistoriesLimit';
 import { useSettingToggleChange } from './options/hooks/useSettingToggleChange';
 import { useStorageChange } from './options/hooks/useStorageChange';
-
-type SettingToggleType = Exclude<
-	Setting['enableAutoRemoveNewTab'] | Setting['removeOtherDomains'],
-	undefined
->;
+import { getStorageSettingValue } from './options/chromeStorage';
 
 const initDialogProperty: DialogProperty = {
 	title: '',
 	confirmMessage: '',
 	actionMessage: 'Clear',
 	handleAction: () => {},
-};
-
-const getStorageSettingValue = (key: string): Promise<Setting> => {
-	return new Promise((resolve) => {
-		chrome.storage.local.get(key, (result) => {
-			resolve(result[key] || {});
-		});
-	});
 };
 
 const domainRegister = async (
@@ -79,7 +66,7 @@ const domainRegister = async (
 		...new Set([
 			...prevDomains,
 			{
-				uuid: uuid_v4(),
+				uuid: crypto.randomUUID(),
 				name: urlHostnameWithoutScheme,
 			},
 		]),
@@ -113,10 +100,7 @@ function Options() {
 	const [clearHistoriesLimit, setClearHistoriesLimit] = useClearHistoriesLimit();
 
 	const handleClickSettingToggle =
-		(
-			key: keyof Setting,
-			setIsChecked: React.Dispatch<React.SetStateAction<SettingToggleType>>
-		) =>
+		(key: keyof Setting, setIsChecked: ReturnType<typeof useSettingToggleChange>[2]) =>
 		async (event: React.ChangeEvent<HTMLInputElement>) => {
 			const value = event.target.checked;
 			setIsChecked(value);

@@ -43,7 +43,7 @@ chrome.runtime.onInstalled.addListener(() => {
 	contextMenusAddListener();
 });
 
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener(() => {
 	chrome.runtime.openOptionsPage();
 });
 
