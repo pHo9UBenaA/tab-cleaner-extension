@@ -1,10 +1,10 @@
 {
 	"extensionName": {
-		"message": "Tab Cleaner Extension",
+		"message": "Tab Cleaner",
 		"description": "Name of the extension."
 	},
 	"extensionShortName": {
-		"message": "Tab Cleaner Extension",
+		"message": "Tab Cleaner",
 		"description": "Name of the extension."
 	},
 	"extensionDescription": {
